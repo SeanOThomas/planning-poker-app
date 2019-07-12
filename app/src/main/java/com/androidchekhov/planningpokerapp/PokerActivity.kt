@@ -40,23 +40,18 @@ class PokerActivity : AppCompatActivity() {
         // show
         estimateEntry.visibility = View.VISIBLE
         actionButton.text = getString(R.string.submit)
-        actionButton.setOnClickListener { viewModel.onSelect(estimateEntry.text.toString().toInt()) }
-    }
-
-    private fun handleInvalidEstimate() {
-        // hide
-        estimateCard.visibility = View.GONE
-        // show
-        messageText.visibility = View.VISIBLE
-        messageText.text = getString(R.string.invalid_entry_message)
-        estimateEntry.visibility = View.VISIBLE
-        actionButton.text = getString(R.string.submit)
         actionButton.setOnClickListener {
             val entry = estimateEntry.text.toString()
             when {
                 entry.isNotEmpty() -> viewModel.onSelect(entry.toInt())
             }
         }
+    }
+
+    private fun handleInvalidEstimate() {
+        // show
+        messageText.visibility = View.VISIBLE
+        messageText.text = getString(R.string.invalid_entry_message)
     }
 
     private fun handleHideEstimate() {
@@ -77,10 +72,7 @@ class PokerActivity : AppCompatActivity() {
         messageText.visibility = View.GONE
 
         // show
-        estimateCard.visibility = View.VISIBLE
         estimateCard.text = showEstimate.estimate.toString()
-        actionButton.text = getString(R.string.reset)
-        actionButton.setOnClickListener { viewModel.onReset() }
     }
 
     companion object {

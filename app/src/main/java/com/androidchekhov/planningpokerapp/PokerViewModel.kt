@@ -51,7 +51,6 @@ class PokerViewModel: ViewModel() {
                 first, second -> return true
                 else -> {
                     val sum = first + second
-                    Log.i(TAG, sum.toString())
                     first = second
                     second = sum
                 }
@@ -61,7 +60,6 @@ class PokerViewModel: ViewModel() {
     }
 
     companion object {
-        private const val TAG = "PokerViewModel"
         private const val NUM_ESTIMATES = 20
         private const val SEED_ESTIMATE_FIRST = 0
         private const val SEED_ESTIMATE_SECOND = 1
