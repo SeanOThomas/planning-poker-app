@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Planning Poker App</string>
+    <string name="reset">Reset</string>
+    <string name="submit">Submit</string>
+    <string name="enter_estimate">Enter estimate</string>
+    <string name="invalid_entry_message">Invalid entry. Try again?</string>
+    <string name="tap_to_reveal_message">Tap card to reveal.</string>
+</resources>
