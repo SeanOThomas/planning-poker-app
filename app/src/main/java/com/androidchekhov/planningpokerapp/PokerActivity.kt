@@ -37,6 +37,7 @@ class PokerActivity : AppCompatActivity() {
         // hide
         messageText.visibility = View.GONE
         estimateCard.visibility = View.GONE
+
         // show
         estimateEntry.visibility = View.VISIBLE
         actionButton.text = getString(R.string.submit)
@@ -57,6 +58,7 @@ class PokerActivity : AppCompatActivity() {
     private fun handleHideEstimate() {
         // hide
         estimateEntry.visibility = View.GONE
+
         // show
         messageText.visibility = View.VISIBLE
         messageText.text = getString(R.string.tap_to_reveal_message)
