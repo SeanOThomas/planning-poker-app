@@ -7,7 +7,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
 class PokerActivity : AppCompatActivity(), PokerView {
-    lateinit var viewModel: PokerViewModel
+    private lateinit var viewModel: PokerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,6 @@ class PokerActivity : AppCompatActivity(), PokerView {
         estimateEntry.visibility = View.VISIBLE
     }
 
-
     override fun hideMessage() {
         messageText.visibility = View.GONE
     }
@@ -37,17 +36,17 @@ class PokerActivity : AppCompatActivity(), PokerView {
         estimateCard.visibility = View.GONE
     }
 
-    override fun showEstimateCardBack() = with (estimateCard) {
+    override fun showEstimateCardBack() = with(estimateCard) {
         visibility = View.VISIBLE
         text = ""
     }
 
-    override fun showEstimateCardFront(estimate: Int) = with (estimateCard) {
+    override fun showEstimateCardFront(estimate: Int) = with(estimateCard) {
         visibility = View.VISIBLE
         text = estimate.toString()
     }
 
-    override fun showInvalidEstimate() = with (messageText) {
+    override fun showInvalidEstimate() = with(messageText) {
         visibility = View.VISIBLE
         text = getString(R.string.invalid_entry_message)
     }
@@ -57,7 +56,7 @@ class PokerActivity : AppCompatActivity(), PokerView {
         text = getString(R.string.tap_to_reveal_message)
     }
 
-    override fun showResetButton() = with (actionButton) {
+    override fun showResetButton() = with(actionButton) {
         text = getString(R.string.reset)
         setOnClickListener { viewModel.onReset() }
     }
