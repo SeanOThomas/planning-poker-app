@@ -5,13 +5,9 @@ import android.arch.lifecycle.ViewModel
 
 class PokerViewModel: ViewModel() {
 
-    var viewState: MutableLiveData<PokerViewState> = MutableLiveData()
+    var viewState = MutableLiveData<PokerViewState>().apply { value = Start }
 
     private var estimate: Int? = null
-
-    init {
-        viewState.value = Start
-    }
 
     fun onReset() {
         viewState.value = Start
