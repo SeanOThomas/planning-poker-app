@@ -5,14 +5,8 @@ import android.arch.lifecycle.ViewModel
 
 class PokerViewModel: ViewModel() {
 
-    /**
-     * Observable view state
-     */
     var viewState: MutableLiveData<PokerViewState> = MutableLiveData()
 
-    /**
-     * Domain state
-     */
     private var estimate: Int? = null
 
     init {
