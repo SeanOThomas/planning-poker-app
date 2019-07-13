@@ -2,7 +2,6 @@ package com.androidchekhov.planningpokerapp
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Log
 
 class PokerViewModel: ViewModel() {
 
@@ -25,14 +24,14 @@ class PokerViewModel: ViewModel() {
     }
 
     fun onCardTap() {
-        viewState.value = ShowEstimate(checkNotNull(estimate))
+        viewState.value = ShowEstimateFront(checkNotNull(estimate))
     }
 
     fun onSelect(estimate: Int) {
         viewState.value = when {
             isValidEstimate(estimate) -> {
                 this.estimate = estimate
-                HideEstimate
+                ShowEstimateBack
             }
             else -> InvalidEstimate
         }

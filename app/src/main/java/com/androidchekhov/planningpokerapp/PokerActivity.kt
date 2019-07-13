@@ -1,15 +1,12 @@
 package com.androidchekhov.planningpokerapp
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
-class PokerActivity : AppCompatActivity() {
-
+class PokerActivity : AppCompatActivity(), PokerView {
     lateinit var viewModel: PokerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,66 +15,60 @@ class PokerActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(this)[PokerViewModel::class.java]
 
-        viewModel.viewState.observe(this, Observer { viewState ->
-            Log.i(TAG, "updating view state: $viewState")
-            viewState?.let {
-                when (viewState) {
-                    is Start -> handleStart()
-                    is InvalidEstimate -> handleInvalidEstimate()
-                    is HideEstimate -> handleHideEstimate()
-                    is ShowEstimate -> handleShowEstimate(viewState)
-                }
-            }
-        })
+        viewModel.viewState.observe(this, PokerViewStateObserver(this))
 
         estimateCard.setOnClickListener { viewModel.onCardTap() }
     }
 
-    private fun handleStart() {
-        // hide
-        messageText.visibility = View.GONE
-        estimateCard.visibility = View.GONE
+    override fun hideEstimateEntry() {
+        estimateEntry.visibility = View.GONE
+    }
 
-        // show
+    override fun showEstimateEntry() {
         estimateEntry.visibility = View.VISIBLE
-        actionButton.text = getString(R.string.submit)
-        actionButton.setOnClickListener {
+    }
+
+
+    override fun hideMessage() {
+        messageText.visibility = View.GONE
+    }
+
+    override fun hideEstimateCard() {
+        estimateCard.visibility = View.GONE
+    }
+
+    override fun showEstimateCardBack() = with (estimateCard) {
+        visibility = View.VISIBLE
+        text = ""
+    }
+
+    override fun showEstimateCardFront(estimate: Int) = with (estimateCard) {
+        visibility = View.VISIBLE
+        text = estimate.toString()
+    }
+
+    override fun showInvalidEstimate() = with (messageText) {
+        visibility = View.VISIBLE
+        text = getString(R.string.invalid_entry_message)
+    }
+
+    override fun showTapToReveal() = with(messageText) {
+        visibility = View.VISIBLE
+        text = getString(R.string.tap_to_reveal_message)
+    }
+
+    override fun showResetButton() = with (actionButton) {
+        text = getString(R.string.reset)
+        setOnClickListener { viewModel.onReset() }
+    }
+
+    override fun showSubmitButton() = with(actionButton) {
+        text = getString(R.string.submit)
+        setOnClickListener {
             val entry = estimateEntry.text.toString()
             when {
                 entry.isNotEmpty() -> viewModel.onSelect(entry.toInt())
             }
         }
-    }
-
-    private fun handleInvalidEstimate() {
-        // show
-        messageText.visibility = View.VISIBLE
-        messageText.text = getString(R.string.invalid_entry_message)
-    }
-
-    private fun handleHideEstimate() {
-        // hide
-        estimateEntry.visibility = View.GONE
-
-        // show
-        messageText.visibility = View.VISIBLE
-        messageText.text = getString(R.string.tap_to_reveal_message)
-        estimateCard.visibility = View.VISIBLE
-        estimateCard.text = ""
-        actionButton.text = getString(R.string.reset)
-        actionButton.setOnClickListener { viewModel.onReset() }
-    }
-
-    private fun handleShowEstimate(showEstimate: ShowEstimate) {
-        // hide
-        estimateEntry.visibility = View.GONE
-        messageText.visibility = View.GONE
-
-        // show
-        estimateCard.text = showEstimate.estimate.toString()
-    }
-
-    companion object {
-        private const val TAG = "PokerActivity"
     }
 }
